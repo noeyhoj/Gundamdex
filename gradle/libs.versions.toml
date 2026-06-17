@@ -1,5 +1,5 @@
 [versions]
-agp = "9.0.1"
+agp = "9.2.1"
 coilCompose = "3.5.0"
 converterKotlinxSerialization = "2.11.0"
 coreKtx = "1.16.0"
