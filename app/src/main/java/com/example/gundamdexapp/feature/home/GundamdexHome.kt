@@ -23,6 +23,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -56,7 +60,17 @@ fun GundamdexHome() {
             )
         }
     ) { innerPadding ->
+        var searchTextValue by remember { mutableStateOf("") }
+        
+        fun onSearchTextValueChange(changeValue: String) {
+            searchTextValue = changeValue
+        }
+
         GundamdexContent(
+            searchTextValue = searchTextValue,
+            onSearchTextValueChange = {
+                onSearchTextValueChange(it)
+            },
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
@@ -66,46 +80,53 @@ fun GundamdexHome() {
 
 @Composable
 private fun GundamdexContent(
+    searchTextValue: String,
+    onSearchTextValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyVerticalGrid(
-        modifier = modifier,
-        columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+    Column(
+        modifier = modifier
     ) {
-        item(
-            span = { GridItemSpan(2) }
+        GundamdexSearchBar(
+            searchTextValue = searchTextValue,
+            onSearchTextValueChange = onSearchTextValueChange,
+            modifier = Modifier.padding(16.dp)
+        )
+
+        LazyVerticalGrid(
+            modifier = Modifier.weight(1f),
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            GundamdexSearchBar(
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-        item(
-            span = { GridItemSpan(2) }
-        ) {
-            Text(
-                "Featured Units",
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
-            )
-        }
-        items(10) {
-            GundamCard(
-                modelNumber = "Model Number",
-                gundamName = "Gundam Name",
-                gundamSeries = "Gundam Series",
-                modifier = Modifier
-                    .background(color = Color.Red, shape = RoundedCornerShape(10.dp))
-                    .padding(10.dp)
-            )
+            item(
+                span = { GridItemSpan(2) }
+            ) {
+                Text(
+                    "Featured Units",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
+                )
+            }
+            items(10) {
+                GundamCard(
+                    modelNumber = "Model Number",
+                    gundamName = "Gundam Name",
+                    gundamSeries = "Gundam Series",
+                    modifier = Modifier
+                        .background(color = Color.Red, shape = RoundedCornerShape(10.dp))
+                        .padding(10.dp)
+                )
+            }
         }
     }
 }
 
 @Composable
 private fun GundamdexSearchBar(
+    searchTextValue: String,
+    onSearchTextValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -127,9 +148,9 @@ private fun GundamdexSearchBar(
                     Text("Search archive...")
                 },
                 maxLines = 1,
-                value = "",
                 shape = RoundedCornerShape(10.dp),
-                onValueChange = {},
+                value = searchTextValue,
+                onValueChange = onSearchTextValueChange,
             )
         }
     }
@@ -188,13 +209,16 @@ private fun GundamCardPreview() {
 @Composable
 private fun GundamdexSearchBarPreview() {
     GundamdexAppTheme {
-        GundamdexSearchBar()
+        GundamdexSearchBar(
+            searchTextValue = "",
+            onSearchTextValueChange = {},
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun HomeScreenPreview() {
+private fun GundamdexHomePreview() {
     GundamdexAppTheme {
         GundamdexHome()
     }
