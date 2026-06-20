@@ -54,7 +54,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.material3)
 
     // Kotlin Coroutine
     implementation(libs.kotlinx.coroutines.core)
