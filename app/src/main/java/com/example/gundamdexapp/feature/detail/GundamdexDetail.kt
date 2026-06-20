@@ -26,24 +26,39 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.example.gundamdexapp.R
+import com.example.gundamdexapp.data.mock.GundamMockData
+import com.example.gundamdexapp.feature.detail.model.Armament
+import com.example.gundamdexapp.feature.detail.model.Armaments
+import com.example.gundamdexapp.feature.detail.model.Dimensions
+import com.example.gundamdexapp.feature.detail.model.GundamInfo
+import com.example.gundamdexapp.feature.detail.model.IndicatorColor
+import com.example.gundamdexapp.feature.detail.model.TechnicalSpecifications
+import com.example.gundamdexapp.feature.detail.model.toColor
 import com.example.gundamdexapp.ui.theme.GundamdexAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GundamdexDetail() {
+fun GundamdexDetail(
+    gundamInfo: GundamInfo = GundamMockData.rx782Info
+) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        "RX-78-2",
+                        gundamInfo.name,
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center
                     )
@@ -65,15 +80,8 @@ fun GundamdexDetail() {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             item {
-                Box(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .size(350.dp)
-                        .background(color = Color.Blue)
-                )
-            }
-            item {
                 GundamInfoCard(
+                    gundamInfo = gundamInfo,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
@@ -87,6 +95,7 @@ fun GundamdexDetail() {
             }
             item {
                 TechInfoCard(
+                    technicalSpecifications = gundamInfo.technicalSpecifications,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
@@ -100,6 +109,7 @@ fun GundamdexDetail() {
             }
             item {
                 ArmamentsInfoCard(
+                    armaments = gundamInfo.armaments,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
@@ -116,72 +126,28 @@ fun GundamdexDetail() {
 }
 
 @Composable
-private fun ArmamentsInfoCard(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        InfoTitle(
-            iconId = R.drawable.download_attack_icon,
-            title = "Standard Armaments"
-        )
-        HorizontalDivider(thickness = 2.dp)
-        ArmamentInfoBar(
-            name = "60mm Vulcan Gun",
-            detail = "x2 (Head-mounted)",
-        )
-        ArmamentInfoBar(
-            name = "Beam Saber",
-            detail = "x2 (Backpack)",
-        )
-        ArmamentInfoBar(
-            name = "Beam Rifle",
-            detail = "Handheld (BOWA-XBR-M-79-07G)",
-        )
-        ArmamentInfoBar(
-            name = "RX・M-Sh-008/S-01021 Shield",
-            detail = "Arm-mounted / Handheld",
-        )
-    }
-}
-
-@Composable
-private fun ArmamentInfoBar(
-    name: String,
-    detail: String,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier
-    ) {
-        Box(
-            modifier = Modifier
-                .padding(10.dp)
-                .size(10.dp)
-                .background(color = Color.Red, shape = CircleShape)
-        )
-        Column(
-            modifier = modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.Start
-        ) {
-            Text(name)
-            Text(detail)
-        }
-    }
-}
-
-@Composable
 private fun GundamInfoCard(
+    gundamInfo: GundamInfo,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(gundamInfo.imageUrl)
+                .crossfade(true)
+                .build(),
+            contentDescription = "${gundamInfo.name} image",
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .padding(16.dp)
+                .size(350.dp)
+        )
+
         Text(
-            "faction",
+            gundamInfo.faction,
             modifier = Modifier
                 .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(5.dp))
                 .padding(vertical = 2.dp, horizontal = 10.dp)
@@ -192,21 +158,21 @@ private fun GundamInfoCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                "series",
+                gundamInfo.series,
                 modifier = Modifier.padding(vertical = 2.dp, horizontal = 10.dp)
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
-                "era",
+                gundamInfo.era,
                 modifier = Modifier
                     .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(5.dp))
                     .padding(vertical = 2.dp, horizontal = 10.dp)
             )
         }
-        Text("name", fontSize = 40.sp, fontWeight = FontWeight.Bold)
-        Text("modelNumber", fontSize = 12.sp)
+        Text(gundamInfo.name, fontSize = 40.sp, fontWeight = FontWeight.Bold)
+        Text(gundamInfo.modelNumber, fontSize = 12.sp)
         Spacer(modifier = Modifier.height(4.dp))
-        Text("description")
+        Text(gundamInfo.description)
         Spacer(modifier = Modifier.height(8.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -221,7 +187,7 @@ private fun GundamInfoCard(
                     .weight(1f)
             ) {
                 Text("Height")
-                Text("12.0 m")
+                Text(gundamInfo.dimensions.height)
             }
             Column(
                 modifier = Modifier
@@ -231,7 +197,7 @@ private fun GundamInfoCard(
                     .weight(1f)
             ) {
                 Text("Weight")
-                Text("34.0 t")
+                Text(gundamInfo.dimensions.weight)
             }
         }
     }
@@ -239,6 +205,7 @@ private fun GundamInfoCard(
 
 @Composable
 private fun TechInfoCard(
+    technicalSpecifications: TechnicalSpecifications,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -252,27 +219,27 @@ private fun TechInfoCard(
         HorizontalDivider(thickness = 2.dp)
         TechInfoBar(
             title = "Generator Output",
-            value = "1000W"
+            value = technicalSpecifications.generatorOutput
         )
         HorizontalDivider(thickness = 2.dp)
         TechInfoBar(
             title = "Armor Material",
-            value = "Luna Titanium Alloy"
+            value = technicalSpecifications.armorMaterial
         )
         HorizontalDivider(thickness = 2.dp)
         TechInfoBar(
-            title = "Total Thrust",
-            value = "55,000 kg"
+            title = "Total Trust",
+            value = technicalSpecifications.totalTrust
         )
         HorizontalDivider(thickness = 2.dp)
         TechInfoBar(
             title = "Sensor Radius",
-            value = "5,700 m"
+            value = technicalSpecifications.sensorRadius
         )
         HorizontalDivider(thickness = 2.dp)
         TechInfoBar(
             title = "Crew",
-            value = "Pilot only (Core Block)"
+            value = technicalSpecifications.crew
         )
     }
 }
@@ -315,11 +282,64 @@ private fun TechInfoBar(
     }
 }
 
+@Composable
+private fun ArmamentsInfoCard(
+    armaments: Armaments,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        InfoTitle(
+            iconId = R.drawable.download_attack_icon,
+            title = "Standard Armaments"
+        )
+        HorizontalDivider(thickness = 2.dp)
+        armaments.value.forEach { (name, details, indicatorColor) ->
+            ArmamentInfoBar(
+                name = name,
+                detail = details,
+                indicatorColor = indicatorColor.toColor()
+            )
+        }
+    }
+}
+
+@Composable
+private fun ArmamentInfoBar(
+    name: String,
+    detail: String,
+    indicatorColor: Color,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(10.dp)
+                .size(10.dp)
+                .background(color = indicatorColor, shape = CircleShape)
+        )
+        Column(
+            modifier = modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.Start
+        ) {
+            Text(name)
+            Text(detail)
+        }
+    }
+}
+
+
 @Preview(showBackground = true)
 @Composable
 private fun GundamInfoCardPreview() {
     GundamdexAppTheme {
-        GundamInfoCard()
+        GundamInfoCard(
+            gundamInfo = GundamMockData.rx782Info
+        )
     }
 }
 
@@ -327,7 +347,9 @@ private fun GundamInfoCardPreview() {
 @Composable
 private fun TechInfoCardPreview() {
     GundamdexAppTheme {
-        TechInfoCard()
+        TechInfoCard(
+            technicalSpecifications = GundamMockData.rx782Info.technicalSpecifications
+        )
     }
 }
 
@@ -335,7 +357,9 @@ private fun TechInfoCardPreview() {
 @Composable
 private fun ArmamentsInfoCardPreview() {
     GundamdexAppTheme {
-        ArmamentsInfoCard()
+        ArmamentsInfoCard(
+            armaments = GundamMockData.rx782Info.armaments
+        )
     }
 }
 
