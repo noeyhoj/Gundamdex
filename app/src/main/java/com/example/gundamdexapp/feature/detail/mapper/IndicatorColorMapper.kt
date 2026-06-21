@@ -1,4 +1,4 @@
-package com.example.gundamdexapp.data.domain.detail.mapper
+package com.example.gundamdexapp.feature.detail.mapper
 
 import androidx.compose.ui.graphics.Color
 import com.example.gundamdexapp.data.domain.detail.model.IndicatorColor

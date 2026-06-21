@@ -38,11 +38,11 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.gundamdexapp.R
-import com.example.gundamdexapp.data.domain.detail.mapper.toColor
 import com.example.gundamdexapp.data.domain.detail.model.Armaments
 import com.example.gundamdexapp.data.domain.detail.model.GundamInfo
 import com.example.gundamdexapp.data.domain.detail.model.TechnicalSpecifications
 import com.example.gundamdexapp.data.mock.GundamMockData
+import com.example.gundamdexapp.feature.detail.mapper.toColor
 import com.example.gundamdexapp.ui.theme.GundamdexAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
