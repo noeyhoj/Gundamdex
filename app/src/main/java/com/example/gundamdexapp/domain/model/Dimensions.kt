@@ -1,4 +1,4 @@
-package com.example.gundamdexapp.data.domain.model
+package com.example.gundamdexapp.domain.model
 
 data class Dimensions(
     val height: String = "",

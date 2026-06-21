@@ -3,7 +3,7 @@ package com.example.gundamdexapp.feature.detail
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.example.gundamdexapp.data.domain.model.GundamInfo
+import com.example.gundamdexapp.domain.model.GundamInfo
 import com.example.gundamdexapp.feature.detail.uimodel.ArmamentUiModel
 import com.example.gundamdexapp.feature.detail.uimodel.DimensionsUiModel
 import com.example.gundamdexapp.feature.detail.uimodel.GundamdexDetailUiModel
