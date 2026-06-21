@@ -37,6 +37,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -136,6 +137,7 @@ private fun GundamdexContent(
                     imageUrl = it.imageUrl,
                     onCardClick = onCardClick,
                     modifier = Modifier
+                        .shadow(elevation = 4.dp, shape = RoundedCornerShape(10.dp))
                         .background(color = Color.White, shape = RoundedCornerShape(10.dp))
                         .padding(10.dp),
                 )
@@ -200,15 +202,33 @@ private fun GundamCard(
             contentDescription = "$gundamName image",
             modifier = Modifier
                 .size(150.dp)
-                .background(color = Color.LightGray)
+                .background(color = Color.LightGray, shape = RoundedCornerShape(5.dp)),
         )
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.Start,
         ) {
-            Text(modelNumber)
-            Text(gundamName)
-            Text(gundamSeries)
+            Text(
+                modelNumber,
+                color = Color.Gray,
+                fontSize = 14.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                gundamName,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                gundamSeries,
+                color = Color.LightGray,
+                fontSize = 12.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
         }
     }
 }
