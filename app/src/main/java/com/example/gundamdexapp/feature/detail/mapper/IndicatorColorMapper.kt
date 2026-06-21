@@ -1,10 +1,10 @@
 package com.example.gundamdexapp.feature.detail.mapper
 
 import androidx.compose.ui.graphics.Color
-import com.example.gundamdexapp.data.domain.detail.model.IndicatorColor
-import com.example.gundamdexapp.data.domain.detail.model.IndicatorColor.BLUE
-import com.example.gundamdexapp.data.domain.detail.model.IndicatorColor.GRAY
-import com.example.gundamdexapp.data.domain.detail.model.IndicatorColor.RED
+import com.example.gundamdexapp.data.domain.model.IndicatorColor
+import com.example.gundamdexapp.data.domain.model.IndicatorColor.BLUE
+import com.example.gundamdexapp.data.domain.model.IndicatorColor.GRAY
+import com.example.gundamdexapp.data.domain.model.IndicatorColor.RED
 
 fun IndicatorColor.toColor(): Color = when (this) {
     RED -> Color.Red

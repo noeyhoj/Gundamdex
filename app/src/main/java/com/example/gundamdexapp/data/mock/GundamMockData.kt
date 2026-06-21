@@ -1,11 +1,11 @@
 package com.example.gundamdexapp.data.mock
 
-import com.example.gundamdexapp.data.domain.detail.model.Armament
-import com.example.gundamdexapp.data.domain.detail.model.Armaments
-import com.example.gundamdexapp.data.domain.detail.model.Dimensions
-import com.example.gundamdexapp.data.domain.detail.model.GundamInfo
-import com.example.gundamdexapp.data.domain.detail.model.IndicatorColor
-import com.example.gundamdexapp.data.domain.detail.model.TechnicalSpecifications
+import com.example.gundamdexapp.data.domain.model.Armament
+import com.example.gundamdexapp.data.domain.model.Armaments
+import com.example.gundamdexapp.data.domain.model.Dimensions
+import com.example.gundamdexapp.data.domain.model.GundamInfo
+import com.example.gundamdexapp.data.domain.model.IndicatorColor
+import com.example.gundamdexapp.data.domain.model.TechnicalSpecifications
 
 object GundamMockData {
     val mockGundams = listOf(

@@ -1,4 +1,4 @@
-package com.example.gundamdexapp.data.domain.detail.model
+package com.example.gundamdexapp.data.domain.model
 
 enum class IndicatorColor {
     RED,
