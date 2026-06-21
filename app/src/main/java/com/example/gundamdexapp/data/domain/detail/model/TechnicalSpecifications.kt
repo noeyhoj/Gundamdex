@@ -5,5 +5,5 @@ data class TechnicalSpecifications(
     val armorMaterial: String = "",
     val totalTrust: String = "",
     val sensorRadius: String = "",
-    val crew: String = ""
+    val crew: String = "",
 )

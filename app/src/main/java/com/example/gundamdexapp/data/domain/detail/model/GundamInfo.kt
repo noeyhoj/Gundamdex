@@ -13,5 +13,5 @@ data class GundamInfo(
     val description: String = "",
     val dimensions: Dimensions = Dimensions(),
     val technicalSpecifications: TechnicalSpecifications = TechnicalSpecifications(),
-    val armaments: Armaments = Armaments()
+    val armaments: Armaments = Armaments(),
 )

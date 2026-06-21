@@ -8,7 +8,7 @@ val GundamBlueDark = Color(0xFF82B1FF) // 다크모드용 파스텔 블루
 
 // 메카닉 느낌을 살린 중립/쿨톤 회색 (Neutral/Cool Gray)
 val White = Color(0xFFFFFFFF)
-val Gray50 = Color(0xFFF5F7FA)  // 앱의 기본 배경색 (아주 옅은 쿨그레이)
+val Gray50 = Color(0xFFF5F7FA) // 앱의 기본 배경색 (아주 옅은 쿨그레이)
 val Gray100 = Color(0xFFEBEDF0) // 디바이더, 구분선
 val Gray200 = Color(0xFFDFE2E6) // 버튼 배경 등
 val Gray500 = Color(0xFF8C95A1) // 부가 설명 텍스트 (서브타이틀)
