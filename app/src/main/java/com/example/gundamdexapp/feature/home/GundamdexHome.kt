@@ -52,7 +52,7 @@ import com.example.gundamdexapp.ui.theme.GundamdexAppTheme
 @Composable
 fun GundamdexHome(
     gundamdexHomeStateHolder: GundamdexHomeStatHolder,
-    onCardClick: () -> Unit,
+    onCardClick: (String) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -82,8 +82,8 @@ fun GundamdexHome(
             onSearchTextValueChange = {
                 onSearchTextValueChange(it)
             },
-            onCardClick = {
-                onCardClick()
+            onCardClick = { id ->
+                onCardClick(id)
             },
             gundamdexHomeUiState = gundamdexHomeStateHolder.uiState,
             modifier = Modifier
@@ -98,7 +98,7 @@ private fun GundamdexContent(
     searchTextValue: String,
     onSearchTextValueChange: (String) -> Unit,
     gundamdexHomeUiState: GundamdexHomeUiState,
-    onCardClick: () -> Unit,
+    onCardClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -135,7 +135,9 @@ private fun GundamdexContent(
                     gundamName = it.name,
                     gundamSeries = it.series,
                     imageUrl = it.imageUrl,
-                    onCardClick = onCardClick,
+                    onCardClick = {
+                        onCardClick(it.id)
+                    },
                     modifier = Modifier
                         .shadow(elevation = 4.dp, shape = RoundedCornerShape(10.dp))
                         .background(color = Color.White, shape = RoundedCornerShape(10.dp))
