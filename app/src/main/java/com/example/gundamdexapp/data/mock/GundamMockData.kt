@@ -4,7 +4,7 @@ import com.example.gundamdexapp.data.domain.model.Armament
 import com.example.gundamdexapp.data.domain.model.Armaments
 import com.example.gundamdexapp.data.domain.model.Dimensions
 import com.example.gundamdexapp.data.domain.model.GundamInfo
-import com.example.gundamdexapp.data.domain.model.IndicatorColor
+import com.example.gundamdexapp.feature.detail.uimodel.IndicatorColor
 import com.example.gundamdexapp.data.domain.model.TechnicalSpecifications
 
 object GundamMockData {
@@ -35,22 +35,22 @@ object GundamMockData {
                     Armament(
                         name = "60mm 발칸포",
                         details = "x2 (머리 장착)",
-                        indicatorColor = IndicatorColor.RED,
+                        indicatorColor = "red",
                     ),
                     Armament(
                         name = "빔 사벨",
                         details = "x2 (백팩)",
-                        indicatorColor = IndicatorColor.BLUE,
+                        indicatorColor = "blue",
                     ),
                     Armament(
                         name = "빔 라이플",
                         details = "휴대용",
-                        indicatorColor = IndicatorColor.BLUE,
+                        indicatorColor = "blue",
                     ),
                     Armament(
                         name = "실드",
                         details = "팔 장착 / 휴대용",
-                        indicatorColor = IndicatorColor.GRAY,
+                        indicatorColor = "gray",
                     ),
                 ),
             ),
@@ -80,12 +80,12 @@ object GundamMockData {
                     Armament(
                         name = "120mm 자쿠 머신건",
                         details = "휴대용",
-                        indicatorColor = IndicatorColor.GRAY,
+                        indicatorColor = "gray",
                     ),
                     Armament(
                         name = "히트 호크",
                         details = "근접 무기",
-                        indicatorColor = IndicatorColor.RED,
+                        indicatorColor = "red",
                     ),
                 ),
             ),
@@ -132,17 +132,17 @@ object GundamMockData {
                     Armament(
                         name = "핀 판넬",
                         details = "x6 (백팩 장착)",
-                        indicatorColor = IndicatorColor.BLUE,
+                        indicatorColor = "blue",
                     ),
                     Armament(
                         name = "빔 라이플",
                         details = "휴대용",
-                        indicatorColor = IndicatorColor.BLUE,
+                        indicatorColor = "blue",
                     ),
                     Armament(
                         name = "뉴 하이퍼 바주카",
                         details = "백팩 장착 / 휴대용",
-                        indicatorColor = IndicatorColor.GRAY,
+                        indicatorColor = "gray",
                     ),
                 ),
             ),
@@ -189,12 +189,12 @@ object GundamMockData {
                     Armament(
                         name = "빔 매그넘",
                         details = "휴대용",
-                        indicatorColor = IndicatorColor.BLUE,
+                        indicatorColor = "blue",
                     ),
                     Armament(
                         name = "하이퍼 바주카",
                         details = "휴대용",
-                        indicatorColor = IndicatorColor.GRAY,
+                        indicatorColor = "gray",
                     ),
                 ),
             ),
@@ -241,12 +241,12 @@ object GundamMockData {
                     Armament(
                         name = "트윈 버스터 라이플",
                         details = "휴대용 / 분리 가능",
-                        indicatorColor = IndicatorColor.BLUE,
+                        indicatorColor = "blue",
                     ),
                     Armament(
                         name = "머신 캐논",
                         details = "x2 (어깨 장착)",
-                        indicatorColor = IndicatorColor.GRAY,
+                        indicatorColor = "gray",
                     ),
                 ),
             ),
@@ -273,17 +273,17 @@ object GundamMockData {
                     Armament(
                         name = "루프스 빔 라이플",
                         details = "휴대용",
-                        indicatorColor = IndicatorColor.BLUE,
+                        indicatorColor = "blue",
                     ),
                     Armament(
                         name = "크시피어스 레일포",
                         details = "x2 (허리 장착)",
-                        indicatorColor = IndicatorColor.GRAY,
+                        indicatorColor = "gray",
                     ),
                     Armament(
                         name = "발라에나 플라즈마 수속 빔 포",
                         details = "x2 (날개 장착)",
-                        indicatorColor = IndicatorColor.RED,
+                        indicatorColor = "red",
                     ),
                 ),
             ),
@@ -325,7 +325,7 @@ object GundamMockData {
                     Armament(
                         name = "아머 슈나이더",
                         details = "x2 (허리 수납)",
-                        indicatorColor = IndicatorColor.GRAY,
+                        indicatorColor = "gray",
                     ),
                 ),
             ),
@@ -353,17 +353,17 @@ object GundamMockData {
                     Armament(
                         name = "GN 소드",
                         details = "오른팔 장착",
-                        indicatorColor = IndicatorColor.GRAY,
+                        indicatorColor = "gray",
                     ),
                     Armament(
                         name = "GN 롱/숏 블레이드",
                         details = "허리 장착",
-                        indicatorColor = IndicatorColor.GRAY,
+                        indicatorColor = "gray",
                     ),
                     Armament(
                         name = "GN 빔 사벨",
                         details = "x4 (어깨/허리 후면 장착)",
-                        indicatorColor = IndicatorColor.BLUE,
+                        indicatorColor = "blue",
                     ),
                 ),
             ),
@@ -405,12 +405,12 @@ object GundamMockData {
                     Armament(
                         name = "메이스",
                         details = "물리 타격 무기",
-                        indicatorColor = IndicatorColor.GRAY,
+                        indicatorColor = "gray",
                     ),
                     Armament(
                         name = "태도",
                         details = "근접 베기 무기",
-                        indicatorColor = IndicatorColor.GRAY,
+                        indicatorColor = "gray",
                     ),
                 ),
             ),
@@ -435,12 +435,12 @@ object GundamMockData {
                     Armament(
                         name = "에스쿠천 (건비트)",
                         details = "다목적 원격 조작 병기",
-                        indicatorColor = IndicatorColor.BLUE,
+                        indicatorColor = "blue",
                     ),
                     Armament(
                         name = "빔 라이플",
                         details = "비트 스테이브 결합 가능",
-                        indicatorColor = IndicatorColor.BLUE,
+                        indicatorColor = "blue",
                     ),
                 ),
             ),
