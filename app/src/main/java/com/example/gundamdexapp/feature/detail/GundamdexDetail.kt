@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -49,6 +50,7 @@ import com.example.gundamdexapp.ui.theme.GundamdexAppTheme
 @Composable
 fun GundamdexDetail(
     gundamInfo: GundamInfo = GundamMockData.rx782Info,
+    onBackClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -61,11 +63,17 @@ fun GundamdexDetail(
                     )
                 },
                 navigationIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.download_back_arrow_icon),
-                        contentDescription = "뒤로가기 아이콘",
-                        modifier = Modifier.size(30.dp),
-                    )
+                    IconButton(
+                        onClick = {
+                            onBackClick()
+                        },
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.download_back_arrow_icon),
+                            contentDescription = "뒤로가기 아이콘",
+                            modifier = Modifier.size(30.dp),
+                        )
+                    }
                 },
             )
         },
@@ -363,6 +371,8 @@ private fun ArmamentsInfoCardPreview() {
 @Composable
 private fun GundamdexDetailPreview() {
     GundamdexAppTheme {
-        GundamdexDetail()
+        GundamdexDetail(
+            onBackClick = {},
+        )
     }
 }

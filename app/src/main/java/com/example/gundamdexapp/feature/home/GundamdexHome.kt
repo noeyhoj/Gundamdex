@@ -1,6 +1,7 @@
 package com.example.gundamdexapp.feature.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,7 +44,9 @@ import com.example.gundamdexapp.ui.theme.GundamdexAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GundamdexHome() {
+fun GundamdexHome(
+    onCardClick: () -> Unit,
+) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -72,6 +75,9 @@ fun GundamdexHome() {
             onSearchTextValueChange = {
                 onSearchTextValueChange(it)
             },
+            onCardClick = {
+                onCardClick()
+            },
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
@@ -83,6 +89,7 @@ fun GundamdexHome() {
 private fun GundamdexContent(
     searchTextValue: String,
     onSearchTextValueChange: (String) -> Unit,
+    onCardClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -115,6 +122,7 @@ private fun GundamdexContent(
                     modelNumber = "Model Number",
                     gundamName = "Gundam Name",
                     gundamSeries = "Gundam Series",
+                    onCardClick = onCardClick,
                     modifier = Modifier
                         .background(color = Color.Red, shape = RoundedCornerShape(10.dp))
                         .padding(10.dp),
@@ -162,10 +170,13 @@ private fun GundamCard(
     modelNumber: String,
     gundamName: String,
     gundamSeries: String,
+    onCardClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier.clickable {
+            onCardClick()
+        },
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
@@ -197,6 +208,7 @@ private fun GundamCardPreview() {
                 modelNumber = "Model Number",
                 gundamName = "Gundam Name",
                 gundamSeries = "Gundam Series",
+                onCardClick = {},
                 modifier = Modifier
                     .background(color = Color.Red, shape = RoundedCornerShape(10.dp))
                     .padding(10.dp),
@@ -220,6 +232,8 @@ private fun GundamdexSearchBarPreview() {
 @Composable
 private fun GundamdexHomePreview() {
     GundamdexAppTheme {
-        GundamdexHome()
+        GundamdexHome(
+            onCardClick = {},
+        )
     }
 }
