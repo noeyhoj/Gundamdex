@@ -49,7 +49,7 @@ import com.example.gundamdexapp.ui.theme.GundamdexAppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GundamdexDetail(
-    gundamInfo: GundamInfo = GundamMockData.rx782Info,
+    gundamInfo: GundamInfo = GundamMockData.mockGundams[0],
     onBackClick: () -> Unit,
 ) {
     Scaffold(
@@ -342,7 +342,7 @@ private fun ArmamentInfoBar(
 private fun GundamInfoCardPreview() {
     GundamdexAppTheme {
         GundamInfoCard(
-            gundamInfo = GundamMockData.rx782Info,
+            gundamInfo = GundamMockData.mockGundams[0],
         )
     }
 }
@@ -352,7 +352,7 @@ private fun GundamInfoCardPreview() {
 private fun TechInfoCardPreview() {
     GundamdexAppTheme {
         TechInfoCard(
-            technicalSpecifications = GundamMockData.rx782Info.technicalSpecifications,
+            technicalSpecifications = GundamMockData.mockGundams[0].technicalSpecifications,
         )
     }
 }
@@ -362,7 +362,7 @@ private fun TechInfoCardPreview() {
 private fun ArmamentsInfoCardPreview() {
     GundamdexAppTheme {
         ArmamentsInfoCard(
-            armaments = GundamMockData.rx782Info.armaments,
+            armaments = GundamMockData.mockGundams[0].armaments,
         )
     }
 }

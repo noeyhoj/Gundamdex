@@ -85,7 +85,6 @@ Moshi도 리플렉션 대신 Moshi CodeGen을 사용하면 코틀린의 Null Saf
       "name": "건담",
       "series": "기동전사 건담",
       "imageUrl": "https://example.com/images/rx-78-2.jpg",
-      "statusBadge": "verified",
       "era": "U.C. 0079",
       "faction": "지구연방군",
       "pilot": "아무로 레이",
@@ -130,7 +129,6 @@ Moshi도 리플렉션 대신 Moshi CodeGen을 사용하면 코틀린의 Null Saf
       "name": "샤아 전용 자쿠 II",
       "series": "기동전사 건담",
       "imageUrl": "https://example.com/images/ms-06s.jpg",
-      "statusBadge": "alert",
       "era": "U.C. 0079",
       "faction": "지온 공국군",
       "pilot": "샤아 아즈나블",
@@ -175,7 +173,6 @@ Moshi도 리플렉션 대신 Moshi CodeGen을 사용하면 코틀린의 Null Saf
   | **`name`** | `String` | 기체의 공식 명칭입니다. (예: "건담", "사자비") |
   | **`series`** | `String` | 기체가 등장하는 작품명입니다. (예: "기동전사 건담") |
   | **`imageUrl`** | `String` | 기체 이미지의 URL 경로입니다. |
-  | **`statusBadge`** | `String` | `null` | 카드 우측 상단의 뱃지 상태를 나타냅니다. (`"verified"`, `"alert"` 등) |
   | **`era`** | `String` | 작품 속 연호 및 연도입니다. (예: "U.C. 0079") |
   | **`faction`** | `String` | `null` | 기체의 소속 세력명입니다. (예: "지구연방군") |
   | **`pilot`** | `String` | `null` | 기체에 탑승하는 주요 파일럿의 이름입니다. |

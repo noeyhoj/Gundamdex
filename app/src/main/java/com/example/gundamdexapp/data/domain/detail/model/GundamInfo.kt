@@ -6,7 +6,6 @@ data class GundamInfo(
     val name: String = "",
     val series: String = "",
     val imageUrl: String = "",
-    val statusBadge: String = "",
     val era: String = "",
     val faction: String = "",
     val pilot: String = "",
