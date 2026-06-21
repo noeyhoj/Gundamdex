@@ -320,7 +320,7 @@ private fun ArmamentInfoBar(
                 .background(color = indicatorColor, shape = CircleShape),
         )
         Column(
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.Start,
         ) {
             Text(name)
