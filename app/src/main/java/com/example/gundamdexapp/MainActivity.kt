@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.example.gundamdexapp.feature.detail.GundamdexDetail
 import com.example.gundamdexapp.feature.home.GundamdexHome
 import com.example.gundamdexapp.ui.theme.GundamdexAppTheme
 
@@ -13,7 +14,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             GundamdexAppTheme {
-                GundamdexHome()
+                GundamdexDetail()
             }
         }
     }
