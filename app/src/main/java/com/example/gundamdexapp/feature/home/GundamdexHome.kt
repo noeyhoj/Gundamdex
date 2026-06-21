@@ -47,21 +47,22 @@ fun GundamdexHome() {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(title = {
-                Text(
-                    text = "Gundamdex",
-                    fontSize = 32.sp,
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    color = GundamBlue,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "Gundamdex",
+                        fontSize = 32.sp,
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold,
+                        color = GundamBlue,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                },
             )
-        }
+        },
     ) { innerPadding ->
         var searchTextValue by remember { mutableStateOf("") }
-        
+
         fun onSearchTextValueChange(changeValue: String) {
             searchTextValue = changeValue
         }
@@ -73,7 +74,7 @@ fun GundamdexHome() {
             },
             modifier = Modifier
                 .padding(innerPadding)
-                .fillMaxSize()
+                .fillMaxSize(),
         )
     }
 }
@@ -82,15 +83,15 @@ fun GundamdexHome() {
 private fun GundamdexContent(
     searchTextValue: String,
     onSearchTextValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier,
     ) {
         GundamdexSearchBar(
             searchTextValue = searchTextValue,
             onSearchTextValueChange = onSearchTextValueChange,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
         )
 
         LazyVerticalGrid(
@@ -98,15 +99,15 @@ private fun GundamdexContent(
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             item(
-                span = { GridItemSpan(2) }
+                span = { GridItemSpan(2) },
             ) {
                 Text(
                     "Featured Units",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
+                    fontSize = 20.sp,
                 )
             }
             items(10) {
@@ -116,7 +117,7 @@ private fun GundamdexContent(
                     gundamSeries = "Gundam Series",
                     modifier = Modifier
                         .background(color = Color.Red, shape = RoundedCornerShape(10.dp))
-                        .padding(10.dp)
+                        .padding(10.dp),
                 )
             }
         }
@@ -127,13 +128,13 @@ private fun GundamdexContent(
 private fun GundamdexSearchBar(
     searchTextValue: String,
     onSearchTextValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier
+        modifier = modifier,
     ) {
         Surface(
-            modifier = Modifier.shadow(elevation = 6.dp, shape = RoundedCornerShape(10.dp))
+            modifier = Modifier.shadow(elevation = 6.dp, shape = RoundedCornerShape(10.dp)),
         ) {
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -141,7 +142,7 @@ private fun GundamdexSearchBar(
                     Icon(
                         painter = painterResource(id = R.drawable.download_search_icon),
                         contentDescription = "검색 아이콘",
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(20.dp),
                     )
                 },
                 placeholder = {
@@ -161,7 +162,7 @@ private fun GundamCard(
     modelNumber: String,
     gundamName: String,
     gundamSeries: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
@@ -170,16 +171,15 @@ private fun GundamCard(
         Box(
             modifier = Modifier
                 .size(150.dp)
-                .background(color = Color.Blue)
+                .background(color = Color.Blue),
         )
         Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.Start
+            horizontalAlignment = Alignment.Start,
         ) {
             Text(modelNumber)
             Text(gundamName)
             Text(gundamSeries)
-
         }
     }
 }
@@ -191,7 +191,7 @@ private fun GundamCardPreview() {
         Box(
             modifier = Modifier
                 .padding(16.dp)
-                .width(170.dp)
+                .width(170.dp),
         ) {
             GundamCard(
                 modelNumber = "Model Number",
@@ -199,7 +199,7 @@ private fun GundamCardPreview() {
                 gundamSeries = "Gundam Series",
                 modifier = Modifier
                     .background(color = Color.Red, shape = RoundedCornerShape(10.dp))
-                    .padding(10.dp)
+                    .padding(10.dp),
             )
         }
     }

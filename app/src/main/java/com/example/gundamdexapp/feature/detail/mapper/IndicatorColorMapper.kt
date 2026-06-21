@@ -6,10 +6,8 @@ import com.example.gundamdexapp.data.domain.detail.model.IndicatorColor.BLUE
 import com.example.gundamdexapp.data.domain.detail.model.IndicatorColor.GRAY
 import com.example.gundamdexapp.data.domain.detail.model.IndicatorColor.RED
 
-fun IndicatorColor.toColor(): Color {
-    return when(this) {
-        RED -> Color.Red
-        BLUE -> Color.Blue
-        GRAY -> Color.Gray
-    }
+fun IndicatorColor.toColor(): Color = when (this) {
+    RED -> Color.Red
+    BLUE -> Color.Blue
+    GRAY -> Color.Gray
 }
