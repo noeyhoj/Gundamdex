@@ -23,7 +23,7 @@ fun GundamdexNavigation() {
         composable<HomeRoute> {
             GundamdexHome(
                 gundamdexHomeStateHolder = GundamdexHomeStatHolder(
-                    gundamData = gundamData
+                    gundamData = gundamData,
                 ),
                 onCardClick = { id ->
                     navController.navigate(DetailRoute(id))
@@ -38,7 +38,7 @@ fun GundamdexNavigation() {
             GundamdexDetail(
                 gundamdexDetailStateHolder = GundamdexDetailStateHolder(
                     id = id,
-                    gundamData = gundamData
+                    gundamData = gundamData,
                 ),
                 onBackClick = {
                     navController.navigateUp()

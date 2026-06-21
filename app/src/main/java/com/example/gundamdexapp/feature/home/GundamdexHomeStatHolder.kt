@@ -18,9 +18,9 @@ class GundamdexHomeStatHolder(
                     modelNumber = it.modelNumber,
                     name = it.name,
                     series = it.series,
-                    imageUrl = it.imageUrl
+                    imageUrl = it.imageUrl,
                 )
-            }
+            },
         )
     }
 }

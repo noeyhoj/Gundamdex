@@ -7,5 +7,5 @@ object HomeRoute
 
 @Serializable
 data class DetailRoute(
-    val id: String
+    val id: String,
 )

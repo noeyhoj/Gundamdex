@@ -5,5 +5,5 @@ data class GundamdexHomeUiModel(
     val modelNumber: String = "",
     val name: String = "",
     val series: String = "",
-    val imageUrl: String = ""
+    val imageUrl: String = "",
 )

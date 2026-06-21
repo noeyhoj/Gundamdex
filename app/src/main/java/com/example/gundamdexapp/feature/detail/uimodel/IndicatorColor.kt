@@ -3,10 +3,11 @@ package com.example.gundamdexapp.feature.detail.uimodel
 enum class IndicatorColor {
     RED,
     BLUE,
-    GRAY;
+    GRAY,
+    ;
 
     companion object {
-        fun dataToIndicatorColor(value: String): IndicatorColor = when(value) {
+        fun dataToIndicatorColor(value: String): IndicatorColor = when (value) {
             "red" -> RED
             "blue" -> BLUE
             "gray" -> GRAY
