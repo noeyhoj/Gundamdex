@@ -8,11 +8,3 @@ import com.example.gundamdexapp.data.domain.detail.model.IndicatorColor.RED
 enum class IndicatorColor {
     RED, BLUE, GRAY;
 }
-
-fun IndicatorColor.toColor(): Color {
-    return when(this) {
-        RED -> Color.Red
-        BLUE -> Color.Blue
-        GRAY -> Color.Gray
-    }
-}
