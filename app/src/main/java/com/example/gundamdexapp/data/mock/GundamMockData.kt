@@ -1,11 +1,11 @@
 package com.example.gundamdexapp.data.mock
 
-import com.example.gundamdexapp.feature.detail.model.Armament
-import com.example.gundamdexapp.feature.detail.model.Armaments
-import com.example.gundamdexapp.feature.detail.model.Dimensions
-import com.example.gundamdexapp.feature.detail.model.GundamInfo
-import com.example.gundamdexapp.feature.detail.model.IndicatorColor
-import com.example.gundamdexapp.feature.detail.model.TechnicalSpecifications
+import com.example.gundamdexapp.data.domain.detail.model.Armament
+import com.example.gundamdexapp.data.domain.detail.model.Armaments
+import com.example.gundamdexapp.data.domain.detail.model.Dimensions
+import com.example.gundamdexapp.data.domain.detail.model.GundamInfo
+import com.example.gundamdexapp.data.domain.detail.model.IndicatorColor
+import com.example.gundamdexapp.data.domain.detail.model.TechnicalSpecifications
 
 object GundamMockData {
     val rx782Info = GundamInfo(

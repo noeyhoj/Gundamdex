@@ -1,4 +1,4 @@
-package com.example.gundamdexapp.feature.detail.model
+package com.example.gundamdexapp.data.domain.detail.model
 
 data class GundamInfo(
     val id: String = "",
