@@ -1,5 +1,11 @@
 package com.example.gundamdexapp.feature.home
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -45,6 +51,8 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.gundamdexapp.R
+import com.example.gundamdexapp.feature.utils.SharedTransitionKey
+import com.example.gundamdexapp.feature.utils.SharedType
 import com.example.gundamdexapp.ui.theme.GundamBlue
 import com.example.gundamdexapp.ui.theme.GundamdexAppTheme
 
@@ -53,6 +61,8 @@ import com.example.gundamdexapp.ui.theme.GundamdexAppTheme
 fun GundamdexHome(
     gundamdexHomeUiState: GundamdexHomeUiState,
     onCardClick: (String) -> Unit,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -86,6 +96,8 @@ fun GundamdexHome(
                 onCardClick(id)
             },
             gundamdexHomeUiState = gundamdexHomeUiState,
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = animatedVisibilityScope,
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
@@ -99,6 +111,8 @@ private fun GundamdexContent(
     onSearchTextValueChange: (String) -> Unit,
     gundamdexHomeUiState: GundamdexHomeUiState,
     onCardClick: (String) -> Unit,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -131,6 +145,7 @@ private fun GundamdexContent(
                 key = { it.id },
             ) {
                 GundamCard(
+                    id = it.id,
                     modelNumber = it.modelNumber,
                     gundamName = it.name,
                     gundamSeries = it.series,
@@ -138,6 +153,8 @@ private fun GundamdexContent(
                     onCardClick = {
                         onCardClick(it.id)
                     },
+                    sharedTransitionScope = sharedTransitionScope,
+                    animatedVisibilityScope = animatedVisibilityScope,
                     modifier = Modifier
                         .shadow(elevation = 4.dp, shape = RoundedCornerShape(10.dp))
                         .background(color = Color.White, shape = RoundedCornerShape(10.dp))
@@ -183,54 +200,73 @@ private fun GundamdexSearchBar(
 
 @Composable
 private fun GundamCard(
+    id: String,
     modelNumber: String,
     gundamName: String,
     gundamSeries: String,
     imageUrl: String,
     onCardClick: () -> Unit,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier.clickable {
-            onCardClick()
-        },
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(imageUrl)
-                .crossfade(false)
-                .build(),
-            contentDescription = "$gundamName image",
-            modifier = Modifier
-                .size(150.dp)
-                .background(color = Color.LightGray, shape = RoundedCornerShape(5.dp)),
-        )
+    with(sharedTransitionScope) {
         Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.Start,
+            modifier = modifier
+                .sharedBounds(
+                    rememberSharedContentState(key = SharedTransitionKey(id = id, type = SharedType.COMPOSABLE)),
+                    animatedVisibilityScope = animatedVisibilityScope,
+                    enter = fadeIn(),
+                    exit = fadeOut(),
+                    resizeMode = SharedTransitionScope.ResizeMode.scaleToBounds(),
+                )
+                .clickable {
+                    onCardClick()
+                },
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(
-                modelNumber,
-                color = Color.Gray,
-                fontSize = 14.sp,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(imageUrl)
+                    .crossfade(false)
+                    .build(),
+                contentDescription = "$gundamName image",
+                modifier = Modifier
+                    .sharedElement(
+                        sharedContentState = rememberSharedContentState(
+                            key = SharedTransitionKey(id = id, type = SharedType.IMAGE),
+                        ),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                    )
+                    .size(150.dp)
+                    .background(color = Color.LightGray, shape = RoundedCornerShape(5.dp)),
             )
-            Text(
-                gundamName,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Text(
-                gundamSeries,
-                color = Color.LightGray,
-                fontSize = 12.sp,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.Start,
+            ) {
+                Text(
+                    modelNumber,
+                    color = Color.Gray,
+                    fontSize = 14.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Text(
+                    gundamName,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Text(
+                    gundamSeries,
+                    color = Color.LightGray,
+                    fontSize = 12.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
         }
     }
 }
@@ -239,21 +275,28 @@ private fun GundamCard(
 @Composable
 private fun GundamCardPreview() {
     GundamdexAppTheme {
-        Box(
-            modifier = Modifier
-                .padding(16.dp)
-                .width(170.dp),
-        ) {
-            GundamCard(
-                modelNumber = "Model Number",
-                gundamName = "Gundam Name",
-                gundamSeries = "Gundam Series",
-                imageUrl = "",
-                onCardClick = {},
-                modifier = Modifier
-                    .background(color = Color.White, shape = RoundedCornerShape(10.dp))
-                    .padding(10.dp),
-            )
+        SharedTransitionLayout {
+            AnimatedVisibility(visible = true) {
+                Box(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .width(170.dp),
+                ) {
+                    GundamCard(
+                        modelNumber = "Model Number",
+                        gundamName = "Gundam Name",
+                        gundamSeries = "Gundam Series",
+                        imageUrl = "",
+                        id = "",
+                        onCardClick = {},
+                        sharedTransitionScope = this@SharedTransitionLayout,
+                        animatedVisibilityScope = this@AnimatedVisibility,
+                        modifier = Modifier
+                            .background(color = Color.White, shape = RoundedCornerShape(10.dp))
+                            .padding(10.dp),
+                    )
+                }
+            }
         }
     }
 }
@@ -273,9 +316,15 @@ private fun GundamdexSearchBarPreview() {
 @Composable
 private fun GundamdexHomePreview() {
     GundamdexAppTheme {
-        GundamdexHome(
-            gundamdexHomeUiState = GundamdexHomeUiState(),
-            onCardClick = {},
-        )
+        SharedTransitionLayout {
+            AnimatedVisibility(visible = true) {
+                GundamdexHome(
+                    gundamdexHomeUiState = GundamdexHomeUiState(),
+                    sharedTransitionScope = this@SharedTransitionLayout,
+                    animatedVisibilityScope = this@AnimatedVisibility,
+                    onCardClick = {},
+                )
+            }
+        }
     }
 }

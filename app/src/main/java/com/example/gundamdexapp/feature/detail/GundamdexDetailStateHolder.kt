@@ -20,6 +20,7 @@ class GundamdexDetailStateHolder(
         uiState = (
             gundamData.firstOrNull { it.id == id }?.let {
                 uiState.copy(
+                    id = id,
                     gundamdexDetailUiModel = GundamdexDetailUiModel(
                         modelNumber = it.modelNumber,
                         name = it.name,
