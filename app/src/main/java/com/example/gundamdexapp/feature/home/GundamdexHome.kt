@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -32,12 +33,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.example.gundamdexapp.R
 import com.example.gundamdexapp.ui.theme.GundamBlue
 import com.example.gundamdexapp.ui.theme.GundamdexAppTheme
@@ -45,7 +51,8 @@ import com.example.gundamdexapp.ui.theme.GundamdexAppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GundamdexHome(
-    onCardClick: () -> Unit,
+    gundamdexHomeUiState: GundamdexHomeUiState,
+    onCardClick: (String) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -75,9 +82,10 @@ fun GundamdexHome(
             onSearchTextValueChange = {
                 onSearchTextValueChange(it)
             },
-            onCardClick = {
-                onCardClick()
+            onCardClick = { id ->
+                onCardClick(id)
             },
+            gundamdexHomeUiState = gundamdexHomeUiState,
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
@@ -89,7 +97,8 @@ fun GundamdexHome(
 private fun GundamdexContent(
     searchTextValue: String,
     onSearchTextValueChange: (String) -> Unit,
-    onCardClick: () -> Unit,
+    gundamdexHomeUiState: GundamdexHomeUiState,
+    onCardClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -117,14 +126,21 @@ private fun GundamdexContent(
                     fontSize = 20.sp,
                 )
             }
-            items(10) {
+            items(
+                gundamdexHomeUiState.gundamInfoList,
+                key = { it.id },
+            ) {
                 GundamCard(
-                    modelNumber = "Model Number",
-                    gundamName = "Gundam Name",
-                    gundamSeries = "Gundam Series",
-                    onCardClick = onCardClick,
+                    modelNumber = it.modelNumber,
+                    gundamName = it.name,
+                    gundamSeries = it.series,
+                    imageUrl = it.imageUrl,
+                    onCardClick = {
+                        onCardClick(it.id)
+                    },
                     modifier = Modifier
-                        .background(color = Color.Red, shape = RoundedCornerShape(10.dp))
+                        .shadow(elevation = 4.dp, shape = RoundedCornerShape(10.dp))
+                        .background(color = Color.White, shape = RoundedCornerShape(10.dp))
                         .padding(10.dp),
                 )
             }
@@ -170,6 +186,7 @@ private fun GundamCard(
     modelNumber: String,
     gundamName: String,
     gundamSeries: String,
+    imageUrl: String,
     onCardClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -179,18 +196,41 @@ private fun GundamCard(
         },
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Box(
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(imageUrl)
+                .crossfade(false)
+                .build(),
+            contentDescription = "$gundamName image",
             modifier = Modifier
                 .size(150.dp)
-                .background(color = Color.Blue),
+                .background(color = Color.LightGray, shape = RoundedCornerShape(5.dp)),
         )
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.Start,
         ) {
-            Text(modelNumber)
-            Text(gundamName)
-            Text(gundamSeries)
+            Text(
+                modelNumber,
+                color = Color.Gray,
+                fontSize = 14.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                gundamName,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                gundamSeries,
+                color = Color.LightGray,
+                fontSize = 12.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
         }
     }
 }
@@ -208,9 +248,10 @@ private fun GundamCardPreview() {
                 modelNumber = "Model Number",
                 gundamName = "Gundam Name",
                 gundamSeries = "Gundam Series",
+                imageUrl = "",
                 onCardClick = {},
                 modifier = Modifier
-                    .background(color = Color.Red, shape = RoundedCornerShape(10.dp))
+                    .background(color = Color.White, shape = RoundedCornerShape(10.dp))
                     .padding(10.dp),
             )
         }
@@ -233,6 +274,7 @@ private fun GundamdexSearchBarPreview() {
 private fun GundamdexHomePreview() {
     GundamdexAppTheme {
         GundamdexHome(
+            gundamdexHomeUiState = GundamdexHomeUiState(),
             onCardClick = {},
         )
     }

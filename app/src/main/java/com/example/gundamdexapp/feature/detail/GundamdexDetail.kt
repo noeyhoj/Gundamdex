@@ -24,6 +24,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,17 +42,16 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.gundamdexapp.R
-import com.example.gundamdexapp.data.domain.detail.model.Armaments
-import com.example.gundamdexapp.data.domain.detail.model.GundamInfo
-import com.example.gundamdexapp.data.domain.detail.model.TechnicalSpecifications
-import com.example.gundamdexapp.data.mock.GundamMockData
 import com.example.gundamdexapp.feature.detail.mapper.toColor
+import com.example.gundamdexapp.feature.detail.uimodel.ArmamentUiModel
+import com.example.gundamdexapp.feature.detail.uimodel.GundamdexDetailUiModel
+import com.example.gundamdexapp.feature.detail.uimodel.TechnicalSpecificationsUiModel
 import com.example.gundamdexapp.ui.theme.GundamdexAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GundamdexDetail(
-    gundamInfo: GundamInfo = GundamMockData.rx782Info,
+    gundamdexDetailUiState: GundamdexDetailUiState,
     onBackClick: () -> Unit,
 ) {
     Scaffold(
@@ -57,7 +59,7 @@ fun GundamdexDetail(
             TopAppBar(
                 title = {
                     Text(
-                        gundamInfo.name,
+                        gundamdexDetailUiState.gundamdexDetailUiModel.name,
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
                     )
@@ -86,7 +88,7 @@ fun GundamdexDetail(
         ) {
             item {
                 GundamInfoCard(
-                    gundamInfo = gundamInfo,
+                    gundamdexDetailUiModel = gundamdexDetailUiState.gundamdexDetailUiModel,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
@@ -100,7 +102,7 @@ fun GundamdexDetail(
             }
             item {
                 TechInfoCard(
-                    technicalSpecifications = gundamInfo.technicalSpecifications,
+                    technicalSpecifications = gundamdexDetailUiState.gundamdexDetailUiModel.technicalSpecifications,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
@@ -114,7 +116,7 @@ fun GundamdexDetail(
             }
             item {
                 ArmamentsInfoCard(
-                    armaments = gundamInfo.armaments,
+                    armaments = gundamdexDetailUiState.gundamdexDetailUiModel.armaments,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
@@ -132,7 +134,7 @@ fun GundamdexDetail(
 
 @Composable
 private fun GundamInfoCard(
-    gundamInfo: GundamInfo,
+    gundamdexDetailUiModel: GundamdexDetailUiModel,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -141,10 +143,10 @@ private fun GundamInfoCard(
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(gundamInfo.imageUrl)
+                .data(gundamdexDetailUiModel.imageUrl)
                 .crossfade(true)
                 .build(),
-            contentDescription = "${gundamInfo.name} image",
+            contentDescription = "${gundamdexDetailUiModel.name} image",
             contentScale = ContentScale.Fit,
             modifier = Modifier
                 .padding(16.dp)
@@ -152,7 +154,7 @@ private fun GundamInfoCard(
         )
 
         Text(
-            gundamInfo.faction,
+            gundamdexDetailUiModel.faction,
             modifier = Modifier
                 .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(5.dp))
                 .padding(vertical = 2.dp, horizontal = 10.dp),
@@ -163,21 +165,21 @@ private fun GundamInfoCard(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                gundamInfo.series,
+                gundamdexDetailUiModel.series,
                 modifier = Modifier.padding(vertical = 2.dp, horizontal = 10.dp),
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
-                gundamInfo.era,
+                gundamdexDetailUiModel.era,
                 modifier = Modifier
                     .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(5.dp))
                     .padding(vertical = 2.dp, horizontal = 10.dp),
             )
         }
-        Text(gundamInfo.name, fontSize = 40.sp, fontWeight = FontWeight.Bold)
-        Text(gundamInfo.modelNumber, fontSize = 12.sp)
+        Text(gundamdexDetailUiModel.name, fontSize = 40.sp, fontWeight = FontWeight.Bold)
+        Text(gundamdexDetailUiModel.modelNumber, fontSize = 12.sp)
         Spacer(modifier = Modifier.height(4.dp))
-        Text(gundamInfo.description)
+        Text(gundamdexDetailUiModel.description)
         Spacer(modifier = Modifier.height(8.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -192,7 +194,7 @@ private fun GundamInfoCard(
                     .weight(1f),
             ) {
                 Text("Height")
-                Text(gundamInfo.dimensions.height)
+                Text(gundamdexDetailUiModel.dimensions.height)
             }
             Column(
                 modifier = Modifier
@@ -202,7 +204,7 @@ private fun GundamInfoCard(
                     .weight(1f),
             ) {
                 Text("Weight")
-                Text(gundamInfo.dimensions.weight)
+                Text(gundamdexDetailUiModel.dimensions.weight)
             }
         }
     }
@@ -210,7 +212,7 @@ private fun GundamInfoCard(
 
 @Composable
 private fun TechInfoCard(
-    technicalSpecifications: TechnicalSpecifications,
+    technicalSpecifications: TechnicalSpecificationsUiModel,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -289,7 +291,7 @@ private fun TechInfoBar(
 
 @Composable
 private fun ArmamentsInfoCard(
-    armaments: Armaments,
+    armaments: List<ArmamentUiModel>,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -301,7 +303,7 @@ private fun ArmamentsInfoCard(
             title = "Standard Armaments",
         )
         HorizontalDivider(thickness = 2.dp)
-        armaments.value.forEach { (name, details, indicatorColor) ->
+        armaments.forEach { (name, details, indicatorColor) ->
             ArmamentInfoBar(
                 name = name,
                 detail = details,
@@ -342,7 +344,7 @@ private fun ArmamentInfoBar(
 private fun GundamInfoCardPreview() {
     GundamdexAppTheme {
         GundamInfoCard(
-            gundamInfo = GundamMockData.rx782Info,
+            gundamdexDetailUiModel = GundamdexDetailUiModel(),
         )
     }
 }
@@ -352,7 +354,7 @@ private fun GundamInfoCardPreview() {
 private fun TechInfoCardPreview() {
     GundamdexAppTheme {
         TechInfoCard(
-            technicalSpecifications = GundamMockData.rx782Info.technicalSpecifications,
+            technicalSpecifications = TechnicalSpecificationsUiModel(),
         )
     }
 }
@@ -362,7 +364,7 @@ private fun TechInfoCardPreview() {
 private fun ArmamentsInfoCardPreview() {
     GundamdexAppTheme {
         ArmamentsInfoCard(
-            armaments = GundamMockData.rx782Info.armaments,
+            armaments = emptyList(),
         )
     }
 }
@@ -372,6 +374,7 @@ private fun ArmamentsInfoCardPreview() {
 private fun GundamdexDetailPreview() {
     GundamdexAppTheme {
         GundamdexDetail(
+            gundamdexDetailUiState = GundamdexDetailUiState(),
             onBackClick = {},
         )
     }

@@ -1,6 +1,6 @@
-package com.example.gundamdexapp.data.domain.detail.model
+package com.example.gundamdexapp.feature.detail.uimodel
 
-data class Armament(
+data class ArmamentUiModel(
     val name: String = "",
     val details: String = "",
     val indicatorColor: IndicatorColor = IndicatorColor.RED,

@@ -1,4 +1,4 @@
-package com.example.gundamdexapp.data.domain.detail.model
+package com.example.gundamdexapp.domain.model
 
 data class TechnicalSpecifications(
     val generatorOutput: String = "",

@@ -1,4 +1,4 @@
-package com.example.gundamdexapp.data.domain.detail.model
+package com.example.gundamdexapp.domain.model
 
 data class GundamInfo(
     val id: String = "",
@@ -6,7 +6,6 @@ data class GundamInfo(
     val name: String = "",
     val series: String = "",
     val imageUrl: String = "",
-    val statusBadge: String = "",
     val era: String = "",
     val faction: String = "",
     val pilot: String = "",
