@@ -2,10 +2,7 @@ package com.example.gundamdexapp.feature.navigation
 
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -21,15 +18,14 @@ fun GundamdexNavigation() {
     val navController = rememberNavController()
     val gundamData = GundamMockData.mockGundams
 
-    val gundamdexHomeStateHolder = GundamdexHomeStatHolder(gundamData = gundamData)
-
     SharedTransitionLayout {
         NavHost(
             navController = navController,
             startDestination = HomeRoute,
         ) {
             composable<HomeRoute> {
-                val uiState = remember { gundamdexHomeStateHolder.uiState }
+                val gundamdexHomeStateHolder = remember { GundamdexHomeStatHolder(gundamData = gundamData) }
+                val uiState = gundamdexHomeStateHolder.uiState
 
                 GundamdexHome(
                     gundamdexHomeUiState = uiState,
@@ -45,10 +41,12 @@ fun GundamdexNavigation() {
                 val routeData = backStackEntity.toRoute<DetailRoute>()
                 val id = routeData.id
 
-                val gundamdexDetailStateHolder = GundamdexDetailStateHolder(
-                    id = id,
-                    gundamData = gundamData,
-                )
+                val gundamdexDetailStateHolder = remember {
+                    GundamdexDetailStateHolder(
+                        id = id,
+                        gundamData = gundamData,
+                    )
+                }
                 val uiState = remember { gundamdexDetailStateHolder.uiState }
 
                 GundamdexDetail(
