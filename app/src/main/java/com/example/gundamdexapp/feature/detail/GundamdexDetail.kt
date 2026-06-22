@@ -4,6 +4,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -148,7 +150,14 @@ private fun GundamInfoCard(
 ) {
     with(sharedTransitionScope) {
         Column(
-            modifier = modifier,
+            modifier = modifier
+                .sharedBounds(
+                    rememberSharedContentState(key = "$id gundam"),
+                    animatedVisibilityScope = animatedVisibilityScope,
+                    enter = fadeIn(),
+                    exit = fadeOut(),
+                    resizeMode = SharedTransitionScope.ResizeMode.scaleToBounds(),
+                ),
             verticalArrangement = Arrangement.spacedBy(5.dp),
         ) {
             AsyncImage(

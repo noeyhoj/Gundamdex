@@ -4,6 +4,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -208,9 +210,17 @@ private fun GundamCard(
 ) {
     with(sharedTransitionScope) {
         Column(
-            modifier = modifier.clickable {
-                onCardClick()
-            },
+            modifier = modifier
+                .sharedBounds(
+                    rememberSharedContentState(key = "$id gundam"),
+                    animatedVisibilityScope = animatedVisibilityScope,
+                    enter = fadeIn(),
+                    exit = fadeOut(),
+                    resizeMode = SharedTransitionScope.ResizeMode.scaleToBounds(),
+                )
+                .clickable {
+                    onCardClick()
+                },
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             AsyncImage(
@@ -221,7 +231,9 @@ private fun GundamCard(
                 contentDescription = "$gundamName image",
                 modifier = Modifier
                     .sharedElement(
-                        rememberSharedContentState(key = "$id image"),
+                        sharedContentState = rememberSharedContentState(
+                            key = "$id image",
+                        ),
                         animatedVisibilityScope = animatedVisibilityScope,
                     )
                     .size(150.dp)
