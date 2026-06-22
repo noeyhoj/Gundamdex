@@ -11,7 +11,7 @@ enum class IndicatorColor {
             "red" -> RED
             "blue" -> BLUE
             "gray" -> GRAY
-            else -> throw IllegalArgumentException("잘못된 입력 값을 전달받았습니다.")
+            else -> throw IllegalArgumentException("잘못된 indicator color 입력 값을 전달받았습니다.")
         }
     }
 }
