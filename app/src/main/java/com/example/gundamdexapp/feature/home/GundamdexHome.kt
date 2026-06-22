@@ -54,8 +54,6 @@ fun GundamdexHome(
     gundamdexHomeUiState: GundamdexHomeUiState,
     onCardClick: (String) -> Unit,
 ) {
-    val uiState by remember { mutableStateOf(gundamdexHomeUiState) }
-
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -87,7 +85,7 @@ fun GundamdexHome(
             onCardClick = { id ->
                 onCardClick(id)
             },
-            gundamdexHomeUiState = uiState,
+            gundamdexHomeUiState = gundamdexHomeUiState,
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),

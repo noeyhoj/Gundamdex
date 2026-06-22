@@ -54,14 +54,12 @@ fun GundamdexDetail(
     gundamdexDetailUiState: GundamdexDetailUiState,
     onBackClick: () -> Unit,
 ) {
-    val uiState by remember { mutableStateOf(gundamdexDetailUiState) }
-
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        uiState.gundamdexDetailUiModel.name,
+                        gundamdexDetailUiState.gundamdexDetailUiModel.name,
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
                     )
@@ -90,7 +88,7 @@ fun GundamdexDetail(
         ) {
             item {
                 GundamInfoCard(
-                    gundamdexDetailUiModel = uiState.gundamdexDetailUiModel,
+                    gundamdexDetailUiModel = gundamdexDetailUiState.gundamdexDetailUiModel,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
@@ -104,7 +102,7 @@ fun GundamdexDetail(
             }
             item {
                 TechInfoCard(
-                    technicalSpecifications = uiState.gundamdexDetailUiModel.technicalSpecifications,
+                    technicalSpecifications = gundamdexDetailUiState.gundamdexDetailUiModel.technicalSpecifications,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
@@ -118,7 +116,7 @@ fun GundamdexDetail(
             }
             item {
                 ArmamentsInfoCard(
-                    armaments = uiState.gundamdexDetailUiModel.armaments,
+                    armaments = gundamdexDetailUiState.gundamdexDetailUiModel.armaments,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)

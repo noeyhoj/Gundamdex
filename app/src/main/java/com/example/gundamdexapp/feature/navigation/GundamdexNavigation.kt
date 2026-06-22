@@ -1,6 +1,10 @@
 package com.example.gundamdexapp.feature.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -22,9 +26,10 @@ fun GundamdexNavigation() {
     ) {
         composable<HomeRoute> {
             val gundamdexHomeStateHolder = GundamdexHomeStatHolder(gundamData = gundamData)
+            var uiState by remember { mutableStateOf(gundamdexHomeStateHolder.uiState)}
 
             GundamdexHome(
-                gundamdexHomeUiState = gundamdexHomeStateHolder.uiState,
+                gundamdexHomeUiState = uiState,
                 onCardClick = { id ->
                     navController.navigate(DetailRoute(id))
                 },
@@ -39,9 +44,10 @@ fun GundamdexNavigation() {
                 id = id,
                 gundamData = gundamData,
             )
+            var uiState by remember { mutableStateOf(gundamdexDetailStateHolder.uiState) }
 
             GundamdexDetail(
-                gundamdexDetailUiState = gundamdexDetailStateHolder.uiState,
+                gundamdexDetailUiState = uiState,
                 onBackClick = {
                     navController.navigateUp()
                 },
