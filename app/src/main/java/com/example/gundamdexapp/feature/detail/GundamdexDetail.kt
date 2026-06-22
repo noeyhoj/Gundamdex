@@ -1,5 +1,9 @@
 package com.example.gundamdexapp.feature.detail
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -24,9 +28,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,6 +54,8 @@ import com.example.gundamdexapp.ui.theme.GundamdexAppTheme
 fun GundamdexDetail(
     gundamdexDetailUiState: GundamdexDetailUiState,
     onBackClick: () -> Unit,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
     Scaffold(
         topBar = {
@@ -88,7 +91,10 @@ fun GundamdexDetail(
         ) {
             item {
                 GundamInfoCard(
+                    id = gundamdexDetailUiState.id,
                     gundamdexDetailUiModel = gundamdexDetailUiState.gundamdexDetailUiModel,
+                    animatedVisibilityScope = animatedVisibilityScope,
+                    sharedTransitionScope = sharedTransitionScope,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
@@ -134,77 +140,89 @@ fun GundamdexDetail(
 
 @Composable
 private fun GundamInfoCard(
+    id: String,
     gundamdexDetailUiModel: GundamdexDetailUiModel,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(5.dp),
-    ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(gundamdexDetailUiModel.imageUrl)
-                .crossfade(true)
-                .build(),
-            contentDescription = "${gundamdexDetailUiModel.name} image",
-            contentScale = ContentScale.Fit,
-            modifier = Modifier
-                .padding(16.dp)
-                .size(350.dp),
-        )
-
-        Text(
-            gundamdexDetailUiModel.faction,
-            modifier = Modifier
-                .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(5.dp))
-                .padding(vertical = 2.dp, horizontal = 10.dp),
-        )
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically,
+    with(sharedTransitionScope) {
+        Column(
+            modifier = modifier,
+            verticalArrangement = Arrangement.spacedBy(5.dp),
         ) {
-            Text(
-                gundamdexDetailUiModel.series,
-                modifier = Modifier.padding(vertical = 2.dp, horizontal = 10.dp),
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(gundamdexDetailUiModel.imageUrl)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = "${gundamdexDetailUiModel.name} image",
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .sharedElement(
+                        sharedContentState = rememberSharedContentState(
+                            key = "$id image",
+                        ),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                    )
+                    .padding(16.dp)
+                    .size(350.dp)
+                    .background(color = Color.LightGray, shape = RoundedCornerShape(5.dp)),
             )
-            Spacer(modifier = Modifier.width(10.dp))
+
             Text(
-                gundamdexDetailUiModel.era,
+                gundamdexDetailUiModel.faction,
                 modifier = Modifier
                     .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(5.dp))
                     .padding(vertical = 2.dp, horizontal = 10.dp),
             )
-        }
-        Text(gundamdexDetailUiModel.name, fontSize = 40.sp, fontWeight = FontWeight.Bold)
-        Text(gundamdexDetailUiModel.modelNumber, fontSize = 12.sp)
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(gundamdexDetailUiModel.description)
-        Spacer(modifier = Modifier.height(8.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(5.dp))
-                    .padding(10.dp)
-                    .weight(1f),
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text("Height")
-                Text(gundamdexDetailUiModel.dimensions.height)
+                Text(
+                    gundamdexDetailUiModel.series,
+                    modifier = Modifier.padding(vertical = 2.dp, horizontal = 10.dp),
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(
+                    gundamdexDetailUiModel.era,
+                    modifier = Modifier
+                        .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(5.dp))
+                        .padding(vertical = 2.dp, horizontal = 10.dp),
+                )
             }
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(5.dp))
-                    .padding(10.dp)
-                    .weight(1f),
+            Text(gundamdexDetailUiModel.name, fontSize = 40.sp, fontWeight = FontWeight.Bold)
+            Text(gundamdexDetailUiModel.modelNumber, fontSize = 12.sp)
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(gundamdexDetailUiModel.description)
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text("Weight")
-                Text(gundamdexDetailUiModel.dimensions.weight)
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(5.dp))
+                        .padding(10.dp)
+                        .weight(1f),
+                ) {
+                    Text("Height")
+                    Text(gundamdexDetailUiModel.dimensions.height)
+                }
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(5.dp))
+                        .padding(10.dp)
+                        .weight(1f),
+                ) {
+                    Text("Weight")
+                    Text(gundamdexDetailUiModel.dimensions.weight)
+                }
             }
         }
     }
@@ -343,9 +361,16 @@ private fun ArmamentInfoBar(
 @Composable
 private fun GundamInfoCardPreview() {
     GundamdexAppTheme {
-        GundamInfoCard(
-            gundamdexDetailUiModel = GundamdexDetailUiModel(),
-        )
+        SharedTransitionLayout {
+            AnimatedVisibility(visible = true) {
+                GundamInfoCard(
+                    gundamdexDetailUiModel = GundamdexDetailUiModel(),
+                    id = "",
+                    sharedTransitionScope = this@SharedTransitionLayout,
+                    animatedVisibilityScope = this@AnimatedVisibility,
+                )
+            }
+        }
     }
 }
 
@@ -373,9 +398,15 @@ private fun ArmamentsInfoCardPreview() {
 @Composable
 private fun GundamdexDetailPreview() {
     GundamdexAppTheme {
-        GundamdexDetail(
-            gundamdexDetailUiState = GundamdexDetailUiState(),
-            onBackClick = {},
-        )
+        SharedTransitionLayout {
+            AnimatedVisibility(visible = true) {
+                GundamdexDetail(
+                    gundamdexDetailUiState = GundamdexDetailUiState(),
+                    onBackClick = {},
+                    sharedTransitionScope = this@SharedTransitionLayout,
+                    animatedVisibilityScope = this@AnimatedVisibility,
+                )
+            }
+        }
     }
 }

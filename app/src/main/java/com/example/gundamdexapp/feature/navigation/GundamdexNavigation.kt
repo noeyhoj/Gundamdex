@@ -1,5 +1,6 @@
 package com.example.gundamdexapp.feature.navigation
 
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,38 +21,44 @@ fun GundamdexNavigation() {
     val navController = rememberNavController()
     val gundamData = GundamMockData.mockGundams
 
-    NavHost(
-        navController = navController,
-        startDestination = HomeRoute,
-    ) {
-        composable<HomeRoute> {
-            val gundamdexHomeStateHolder = GundamdexHomeStatHolder(gundamData = gundamData)
-            var uiState by remember { mutableStateOf(gundamdexHomeStateHolder.uiState)}
+    SharedTransitionLayout {
+        NavHost(
+            navController = navController,
+            startDestination = HomeRoute,
+        ) {
+            composable<HomeRoute> {
+                val gundamdexHomeStateHolder = GundamdexHomeStatHolder(gundamData = gundamData)
+                var uiState by remember { mutableStateOf(gundamdexHomeStateHolder.uiState) }
 
-            GundamdexHome(
-                gundamdexHomeUiState = uiState,
-                onCardClick = { id ->
-                    navController.navigate(DetailRoute(id))
-                },
-            )
-        }
+                GundamdexHome(
+                    gundamdexHomeUiState = uiState,
+                    onCardClick = { id ->
+                        navController.navigate(DetailRoute(id))
+                    },
+                    sharedTransitionScope = this@SharedTransitionLayout,
+                    animatedVisibilityScope = this@composable,
+                )
+            }
 
-        composable<DetailRoute> { backStackEntity ->
-            val routeData = backStackEntity.toRoute<DetailRoute>()
-            val id = routeData.id
+            composable<DetailRoute> { backStackEntity ->
+                val routeData = backStackEntity.toRoute<DetailRoute>()
+                val id = routeData.id
 
-            val gundamdexDetailStateHolder = GundamdexDetailStateHolder(
-                id = id,
-                gundamData = gundamData,
-            )
-            var uiState by remember { mutableStateOf(gundamdexDetailStateHolder.uiState) }
+                val gundamdexDetailStateHolder = GundamdexDetailStateHolder(
+                    id = id,
+                    gundamData = gundamData,
+                )
+                var uiState by remember { mutableStateOf(gundamdexDetailStateHolder.uiState) }
 
-            GundamdexDetail(
-                gundamdexDetailUiState = uiState,
-                onBackClick = {
-                    navController.navigateUp()
-                },
-            )
+                GundamdexDetail(
+                    gundamdexDetailUiState = uiState,
+                    onBackClick = {
+                        navController.navigateUp()
+                    },
+                    sharedTransitionScope = this@SharedTransitionLayout,
+                    animatedVisibilityScope = this@composable,
+                )
+            }
         }
     }
 }
