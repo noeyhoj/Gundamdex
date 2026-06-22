@@ -21,14 +21,15 @@ fun GundamdexNavigation() {
     val navController = rememberNavController()
     val gundamData = GundamMockData.mockGundams
 
+    val gundamdexHomeStateHolder = GundamdexHomeStatHolder(gundamData = gundamData)
+
     SharedTransitionLayout {
         NavHost(
             navController = navController,
             startDestination = HomeRoute,
         ) {
             composable<HomeRoute> {
-                val gundamdexHomeStateHolder = GundamdexHomeStatHolder(gundamData = gundamData)
-                var uiState by remember { mutableStateOf(gundamdexHomeStateHolder.uiState) }
+                val uiState = remember { gundamdexHomeStateHolder.uiState }
 
                 GundamdexHome(
                     gundamdexHomeUiState = uiState,
@@ -48,7 +49,7 @@ fun GundamdexNavigation() {
                     id = id,
                     gundamData = gundamData,
                 )
-                var uiState by remember { mutableStateOf(gundamdexDetailStateHolder.uiState) }
+                val uiState = remember { gundamdexDetailStateHolder.uiState }
 
                 GundamdexDetail(
                     gundamdexDetailUiState = uiState,
