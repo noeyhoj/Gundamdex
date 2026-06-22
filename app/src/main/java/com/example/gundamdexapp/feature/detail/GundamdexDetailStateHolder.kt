@@ -55,7 +55,7 @@ class GundamdexDetailStateHolder(
                         },
                     ),
                 )
-            } ?: GundamdexDetailUiState(gundamdexDetailUiModel = GundamdexDetailUiModel())
+            } ?: throw IllegalArgumentException("해당 카드의 id는 존재하지 않습니다.")
             )
     }
 }
