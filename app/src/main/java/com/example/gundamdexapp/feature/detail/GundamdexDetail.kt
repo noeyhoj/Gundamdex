@@ -49,6 +49,8 @@ import com.example.gundamdexapp.feature.detail.mapper.toColor
 import com.example.gundamdexapp.feature.detail.uimodel.ArmamentUiModel
 import com.example.gundamdexapp.feature.detail.uimodel.GundamdexDetailUiModel
 import com.example.gundamdexapp.feature.detail.uimodel.TechnicalSpecificationsUiModel
+import com.example.gundamdexapp.feature.utils.SharedTransitionKey
+import com.example.gundamdexapp.feature.utils.SharedType
 import com.example.gundamdexapp.ui.theme.GundamdexAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -152,7 +154,7 @@ private fun GundamInfoCard(
         Column(
             modifier = modifier
                 .sharedBounds(
-                    rememberSharedContentState(key = "$id gundam"),
+                    rememberSharedContentState(key = SharedTransitionKey(id = id, type = SharedType.COMPOSABLE)),
                     animatedVisibilityScope = animatedVisibilityScope,
                     enter = fadeIn(),
                     exit = fadeOut(),
@@ -170,7 +172,7 @@ private fun GundamInfoCard(
                 modifier = Modifier
                     .sharedElement(
                         sharedContentState = rememberSharedContentState(
-                            key = "$id image",
+                            key = SharedTransitionKey(id = id, type = SharedType.IMAGE),
                         ),
                         animatedVisibilityScope = animatedVisibilityScope,
                     )

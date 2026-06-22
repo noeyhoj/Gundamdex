@@ -51,6 +51,8 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.gundamdexapp.R
+import com.example.gundamdexapp.feature.utils.SharedTransitionKey
+import com.example.gundamdexapp.feature.utils.SharedType
 import com.example.gundamdexapp.ui.theme.GundamBlue
 import com.example.gundamdexapp.ui.theme.GundamdexAppTheme
 
@@ -212,7 +214,7 @@ private fun GundamCard(
         Column(
             modifier = modifier
                 .sharedBounds(
-                    rememberSharedContentState(key = "$id gundam"),
+                    rememberSharedContentState(key = SharedTransitionKey(id = id, type = SharedType.COMPOSABLE)),
                     animatedVisibilityScope = animatedVisibilityScope,
                     enter = fadeIn(),
                     exit = fadeOut(),
@@ -232,7 +234,7 @@ private fun GundamCard(
                 modifier = Modifier
                     .sharedElement(
                         sharedContentState = rememberSharedContentState(
-                            key = "$id image",
+                            key = SharedTransitionKey(id = id, type = SharedType.IMAGE),
                         ),
                         animatedVisibilityScope = animatedVisibilityScope,
                     )
