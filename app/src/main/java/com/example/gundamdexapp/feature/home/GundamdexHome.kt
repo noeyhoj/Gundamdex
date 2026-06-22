@@ -51,9 +51,11 @@ import com.example.gundamdexapp.ui.theme.GundamdexAppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GundamdexHome(
-    gundamdexHomeStateHolder: GundamdexHomeStatHolder,
+    gundamdexHomeUiState: GundamdexHomeUiState,
     onCardClick: (String) -> Unit,
 ) {
+    val uiState by remember { mutableStateOf(gundamdexHomeUiState) }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -85,7 +87,7 @@ fun GundamdexHome(
             onCardClick = { id ->
                 onCardClick(id)
             },
-            gundamdexHomeUiState = gundamdexHomeStateHolder.uiState,
+            gundamdexHomeUiState = uiState,
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
@@ -274,9 +276,7 @@ private fun GundamdexSearchBarPreview() {
 private fun GundamdexHomePreview() {
     GundamdexAppTheme {
         GundamdexHome(
-            gundamdexHomeStateHolder = GundamdexHomeStatHolder(
-                emptyList(),
-            ),
+            gundamdexHomeUiState = GundamdexHomeUiState(),
             onCardClick = {},
         )
     }

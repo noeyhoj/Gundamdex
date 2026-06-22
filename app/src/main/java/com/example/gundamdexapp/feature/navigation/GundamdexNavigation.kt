@@ -21,10 +21,10 @@ fun GundamdexNavigation() {
         startDestination = HomeRoute,
     ) {
         composable<HomeRoute> {
+            val gundamdexHomeStateHolder = GundamdexHomeStatHolder(gundamData = gundamData)
+
             GundamdexHome(
-                gundamdexHomeStateHolder = GundamdexHomeStatHolder(
-                    gundamData = gundamData,
-                ),
+                gundamdexHomeUiState = gundamdexHomeStateHolder.uiState,
                 onCardClick = { id ->
                     navController.navigate(DetailRoute(id))
                 },
@@ -35,11 +35,13 @@ fun GundamdexNavigation() {
             val routeData = backStackEntity.toRoute<DetailRoute>()
             val id = routeData.id
 
+            val gundamdexDetailStateHolder = GundamdexDetailStateHolder(
+                id = id,
+                gundamData = gundamData,
+            )
+
             GundamdexDetail(
-                gundamdexDetailStateHolder = GundamdexDetailStateHolder(
-                    id = id,
-                    gundamData = gundamData,
-                ),
+                gundamdexDetailUiState = gundamdexDetailStateHolder.uiState,
                 onBackClick = {
                     navController.navigateUp()
                 },

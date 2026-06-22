@@ -24,6 +24,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,10 +51,11 @@ import com.example.gundamdexapp.ui.theme.GundamdexAppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GundamdexDetail(
-    gundamdexDetailStateHolder: GundamdexDetailStateHolder,
+    gundamdexDetailUiState: GundamdexDetailUiState,
     onBackClick: () -> Unit,
 ) {
-    val uiState = gundamdexDetailStateHolder.uiState
+    val uiState by remember { mutableStateOf(gundamdexDetailUiState) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -372,7 +376,7 @@ private fun ArmamentsInfoCardPreview() {
 private fun GundamdexDetailPreview() {
     GundamdexAppTheme {
         GundamdexDetail(
-            gundamdexDetailStateHolder = GundamdexDetailStateHolder(id = "", gundamData = emptyList()),
+            gundamdexDetailUiState = GundamdexDetailUiState(),
             onBackClick = {},
         )
     }
