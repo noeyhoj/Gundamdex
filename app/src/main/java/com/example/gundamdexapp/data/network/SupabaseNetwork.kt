@@ -1,17 +1,33 @@
 package com.example.gundamdexapp.data.network
 
 import com.example.gundamdexapp.BuildConfig
-import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.createSupabaseClient
-import io.github.jan.supabase.postgrest.Postgrest
+import com.example.gundamdexapp.data.network.api.GundamApi
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
 object SupabaseNetwork {
-    val client: SupabaseClient by lazy {
-        createSupabaseClient(
-            supabaseUrl = BuildConfig.SUPABASE_URL,
-            supabaseKey = BuildConfig.SUPABASE_ANON_KEY
-        ) {
-            install(Postgrest)
-        }
+    // Logcat에서 통신 로그를 보기 위한 설정
+    private val loggingInterceptor = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
     }
+
+    private val okHttpClient = OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .build()
+
+    private val json = Json {
+        ignoreUnknownKeys = true
+    }
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("${BuildConfig.SUPABASE_URL}/")
+        .client(okHttpClient)
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+        .build()
+
+    val gundamApi: GundamApi = retrofit.create(GundamApi::class.java)
 }
