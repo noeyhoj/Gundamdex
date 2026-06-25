@@ -12,6 +12,14 @@ interface GundamApi {
     suspend fun getGundams(
         @Header("apikey") apikey: String = BuildConfig.SUPABASE_ANON_KEY,
         @Header("Authorization") auth: String = "Bearer ${BuildConfig.SUPABASE_ANON_KEY}",
-        @Query("select") selectQuery: String = "*, armaments(*)"
+        @Query("select") selectQuery: String = "*, armaments(*)",
+    ): Response<List<GundamDto>>
+
+    @GET("rest/v1/gundams")
+    suspend fun getGundamDetail(
+        @Header("apikey") apikey: String = BuildConfig.SUPABASE_ANON_KEY,
+        @Header("Authorization") auth: String = "Bearer ${BuildConfig.SUPABASE_ANON_KEY}",
+        @Query("id") idFilter: String,
+        @Query("select") selectQuery: String = "*, armaments(*)",
     ): Response<List<GundamDto>>
 }
