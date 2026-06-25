@@ -35,7 +35,7 @@ class GundamdexDetailViewModel(
 
     suspend fun getGundamDetail(id: String): GundamInfo? = repository.getGundamDetail(id).getOrNull()?.firstOrNull()
 
-    suspend fun setUiState(gundamInfo: GundamInfo?) {
+    fun setUiState(gundamInfo: GundamInfo?) {
         gundamInfo?.let { gundamInfo ->
             _uiState.update {
                 it.copy(
