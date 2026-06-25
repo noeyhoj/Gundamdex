@@ -11,11 +11,11 @@ data class ArmamentDto(
     val name: String,
     val details: String? = null,
     @SerialName("indicator_color")
-    val indicatorColor: String
+    val indicatorColor: String,
 ) {
     fun toDomain(): Armament = Armament(
         name = this.name,
         details = this.details ?: "",
-        indicatorColor = this.indicatorColor
+        indicatorColor = this.indicatorColor,
     )
 }

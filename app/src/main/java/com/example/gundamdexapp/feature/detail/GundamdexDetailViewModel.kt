@@ -1,6 +1,5 @@
 package com.example.gundamdexapp.feature.detail
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -14,8 +13,6 @@ import com.example.gundamdexapp.feature.detail.uimodel.DimensionsUiModel
 import com.example.gundamdexapp.feature.detail.uimodel.GundamdexDetailUiModel
 import com.example.gundamdexapp.feature.detail.uimodel.IndicatorColor
 import com.example.gundamdexapp.feature.detail.uimodel.TechnicalSpecificationsUiModel
-import kotlin.time.Duration.Companion.milliseconds
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,9 +33,7 @@ class GundamdexDetailViewModel(
         }
     }
 
-    suspend fun getGundamDetail(id: String): GundamInfo? {
-        return repository.getGundamDetail(id).getOrNull()?.firstOrNull()
-    }
+    suspend fun getGundamDetail(id: String): GundamInfo? = repository.getGundamDetail(id).getOrNull()?.firstOrNull()
 
     suspend fun setUiState(gundamInfo: GundamInfo?) {
         gundamInfo?.let { gundamInfo ->
